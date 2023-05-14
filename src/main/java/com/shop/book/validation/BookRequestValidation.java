@@ -10,14 +10,14 @@ import com.shop.book.util.ApplicationConstant;
 
 @Component
 public class BookRequestValidation {
-	
+
 	public void bookRequestValidation(List<Book> books) {
 
-		if (books == null) {
+		if (books == null || books.isEmpty()) {
 
-			throw new InvalidBookRequestException(ApplicationConstant.MISSING_BOOKLIST);
+			throw new InvalidBookRequestException(ApplicationConstant.MISSING_OR_EMPTY_BOOKLIST);
 		}
-		
+
 	}
-	
+
 }
