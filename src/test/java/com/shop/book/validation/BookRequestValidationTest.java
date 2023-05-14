@@ -42,4 +42,23 @@ class BookRequestValidationTest {
 		assertTrue(actualMessage.contains(ApplicationConstant.MISSING_OR_EMPTY_BOOKLIST));
 	}
 
+	@Test
+	@DisplayName("throw exception when user send invalid data in book list")
+	void testExceptionWheInvalidDataInBookList() {
+		List<Book> books = new ArrayList<>();
+		books.add(createBook("", 50, 1));
+		books.add(createBook("Code", 50, 1));
+
+		Exception exception = assertThrows(InvalidBookRequestException.class,
+				() -> validation.bookRequestValidation(books));
+
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(ApplicationConstant.INVALID_BOOKLIST));
+	}
+
+	private Book createBook(String title, double price, int quantity) {
+		return new Book(title, price, quantity);
+	}
+
 }
