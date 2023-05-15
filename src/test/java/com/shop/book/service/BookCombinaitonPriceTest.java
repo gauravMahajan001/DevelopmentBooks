@@ -50,6 +50,22 @@ class BookCombinaitonPriceTest {
 
 		assertEquals(expectedBooksPrice, result.getTotalPrice());
 	}
+	
+	@Test
+	@DisplayName("should not calculate basket price when book list not matched with combination ")
+	void testBookListNotMatchWithPerCombinationThenBasketPriceNotCalculated() {
+		Integer[] bookCombination = { 5, 3 };
+		List<Integer> book_Combination = Arrays.asList(bookCombination);
+		double booksPrice = 0;
+		int totalBooks = 5;
+
+		doReturn(books).when(bookMetaData).getBookListForACombination(totalBooks, books, bookCountMapBasedOnName);
+
+		BasketPrice result = bookCombinaitonPrice.calculateBasketPricePerCombination(book_Combination, books,
+				bookCountMapBasedOnName);
+
+		assertEquals(booksPrice, result.getTotalPrice());
+	}
 
 	private List<Book> getBookist() {
 		List<Book> books = new ArrayList<>();
