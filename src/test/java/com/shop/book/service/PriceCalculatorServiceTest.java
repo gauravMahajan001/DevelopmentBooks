@@ -20,10 +20,10 @@ import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
 import com.shop.book.util.CreateBook;
 
-class OrderPriceTest {
+class PriceCalculatorServiceTest {
 
 	@InjectMocks
-	private PriceCalculatorService orderPrice;
+	private PriceCalculatorService priceCalculatorService;
 	@Mock
 	private BookCombinaitonPrice bookCombinaitonPrice;
 	private List<Book> books;
@@ -50,7 +50,7 @@ class OrderPriceTest {
 		doReturn(basketPrice).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination, books,
 				bookCountMapBasedOnName);
 
-		BasketPrice result = orderPrice.calculateBookBasketPrice(booksCombinationPatternList, bookCountMapBasedOnName,
+		BasketPrice result = priceCalculatorService.calculateBookBasketPrice(booksCombinationPatternList, bookCountMapBasedOnName,
 				books);
 
 		assertNotNull(result);
