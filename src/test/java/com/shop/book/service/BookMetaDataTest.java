@@ -92,6 +92,15 @@ class BookMetaDataTest {
 		
 		assertEquals(bookCombinations, result);
 	}
+	
+	@Test
+	@DisplayName("should calculate book quantity")
+	void testCalculateBookQuantity() {
+		int totalBookQantity = 8;
+		int result = bookMetaData.getBooksQantity(books);
+
+		assertEquals(totalBookQantity, result);
+	}
 
 
 	private List<Book> getBookist() {

@@ -67,5 +67,10 @@ public class BookMetaData {
 		return algorithm.createBookCombinationBasedUponTotalBooks(rulesBasedOnDiscount, totalBooks);
 
 	}
+	
+	public int getBooksQantity(List<Book> books) {
+
+		return books.stream().map(Book::getQuantity).reduce(0, (a, b) -> a + b);
+	}
 
 }
