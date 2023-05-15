@@ -42,6 +42,7 @@ url : http://localhost:8080/api/book/shop
 ```
 ## Request Body
 ```
+ title : book name, price : book price, quantity : number of books
 [{
 	"title": "Clean Code",
 	"price": 50.0,
@@ -63,4 +64,35 @@ url : http://localhost:8080/api/book/shop
 	"price": 50.0,
 	"quantity": 1
 }]
+```
+## Reponse Body
+```
+ totalPrice : discount on total books price, bookNmae : book per combination, price : total books price per combination, 
+ discount : discount per combination, totalBook : total number of books
+{
+    "totalPrice": 320.0,
+    "booksCombination": [
+        {
+            "booksName": [
+                "Clean Code",
+                "The Clean Coder",
+                "Clean Architecture",
+                "Test Driven Development by Example"
+            ],
+            "price": 160.0,
+            "discount": 20.0
+        },
+        {
+            "booksName": [
+                "Clean Code",
+                "The Clean Coder",
+                "Clean Architecture",
+                "Working Effectively With Legacy Code"
+            ],
+            "price": 160.0,
+            "discount": 20.0
+        }
+    ],
+    "totalBook": 8
+}
 ```
