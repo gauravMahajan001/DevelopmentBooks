@@ -3,6 +3,7 @@ package com.shop.book.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
+import com.shop.book.service.ShoppingBasket;
 import com.shop.book.util.CreateBook;
 import com.shop.book.validation.BookRequestValidation;
 
@@ -27,6 +29,9 @@ class BookControllerTest {
 	
 	@Mock
 	private BookRequestValidation validation;
+	
+	@Mock
+	private ShoppingBasket shoppingBasket;
 	
 	@BeforeEach
 	public void setup() {
@@ -39,6 +44,9 @@ class BookControllerTest {
 	void testBookShoppingReturnType() {
 		List<Book> bookList = new ArrayList<>();
 		bookList.add(CreateBook.create("Java", 50, 1));
+		BasketPrice basketPrice = new BasketPrice();
+		doReturn(basketPrice).when(shoppingBasket).calculateBasketPrice(bookList);
+		
 		BasketPrice result = controller.bookShopping(bookList);
 
 		assertThat(result).isExactlyInstanceOf(BasketPrice.class);

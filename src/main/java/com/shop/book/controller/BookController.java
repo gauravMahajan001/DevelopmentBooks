@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
+import com.shop.book.service.ShoppingBasket;
 import com.shop.book.validation.BookRequestValidation;
 
 @RestController
@@ -18,12 +19,15 @@ public class BookController {
 
 	@Autowired
 	private BookRequestValidation validation;
+	
+	@Autowired
+	private ShoppingBasket shoppingBasket;
 
 	@PostMapping("/shop")
 	public BasketPrice bookShopping(@RequestBody List<Book> bookList) {
 
 		validation.bookRequestValidation(bookList);
-		return new BasketPrice();
+		return shoppingBasket.calculateBasketPrice(bookList);
 	}
 
 }
