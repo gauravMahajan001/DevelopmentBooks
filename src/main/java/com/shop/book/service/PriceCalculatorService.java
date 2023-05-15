@@ -29,14 +29,29 @@ public class PriceCalculatorService {
 
 			Integer totalBookSize = bookCombinationPattern.stream().reduce(0, (a, b) -> a + b);
 
-			if (totalBookSize == currentCombinationbasketPrice.getTotalBook()
-					&& previousCombinationBasketPrice == null) {
-				previousCombinationBasketPrice = currentCombinationbasketPrice;
+			if (totalBookSize == currentCombinationbasketPrice.getTotalBook()) {
+
+				if (previousCombinationBasketPrice == null) {
+					previousCombinationBasketPrice = currentCombinationbasketPrice;
+				} else {
+					previousCombinationBasketPrice = getMinimumBasketPrice(currentCombinationbasketPrice,
+							previousCombinationBasketPrice);
+				}
 			}
 
 		}
 		return previousCombinationBasketPrice;
 
+	}
+
+	public BasketPrice getMinimumBasketPrice(BasketPrice currentCombinationbasketPrice,
+			BasketPrice previousCombinationBasketPrice) {
+
+		if (currentCombinationbasketPrice.getTotalPrice() < previousCombinationBasketPrice.getTotalPrice()) {
+			previousCombinationBasketPrice = currentCombinationbasketPrice;
+		}
+
+		return previousCombinationBasketPrice;
 	}
 
 }

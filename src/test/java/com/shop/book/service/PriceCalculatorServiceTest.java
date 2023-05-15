@@ -1,5 +1,6 @@
 package com.shop.book.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 
@@ -50,10 +51,39 @@ class PriceCalculatorServiceTest {
 		doReturn(basketPrice).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination, books,
 				bookCountMapBasedOnName);
 
-		BasketPrice result = priceCalculatorService.calculateBookBasketPrice(booksCombinationPatternList, bookCountMapBasedOnName,
-				books);
+		BasketPrice result = priceCalculatorService.calculateBookBasketPrice(booksCombinationPatternList,
+				bookCountMapBasedOnName, books);
 
 		assertNotNull(result);
+	}
+
+	@Test
+	@DisplayName("should calculate minimum basket price based on book combinations")
+	void testCalculateMinimumBasketPriceBasedOnBookCombination() {
+		Integer[] bookCombination = { 4, 4 };
+		List<Integer> book_Combination = Arrays.asList(bookCombination);
+		Integer[] bookCombination1 = { 1, 1, 1, 1, 1, 1, 1, 1 };
+		List<Integer> book_Combination1 = Arrays.asList(bookCombination1);
+		List<List<Integer>> booksCombinationPatternList = new ArrayList<>();
+		booksCombinationPatternList.add(book_Combination);
+		booksCombinationPatternList.add(book_Combination1);
+		double expectedbooksPrice = 320;
+		BasketPrice basketPrice = new BasketPrice();
+		basketPrice.setTotalPrice(320);
+		basketPrice.setTotalBook(8);
+		BasketPrice basketPrice1 = new BasketPrice();
+		basketPrice1.setTotalPrice(400);
+		basketPrice1.setTotalBook(8);
+
+		doReturn(basketPrice).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination, books,
+				bookCountMapBasedOnName);
+		doReturn(basketPrice1).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination1, books,
+				bookCountMapBasedOnName);
+
+		BasketPrice result = priceCalculatorService.calculateBookBasketPrice(booksCombinationPatternList,
+				bookCountMapBasedOnName, books);
+
+		assertEquals(expectedbooksPrice, result.getTotalPrice());
 	}
 
 	private List<Book> getBookist() {
