@@ -5,12 +5,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.shop.book.model.Book;
 
 @Component
 public class BookMetaData {
+
+	@Autowired
+	private BookCombinationAlgorithm algorithm;
+
+	private int[] rulesBasedOnDiscount = { 1, 2, 3, 4, 5 };
 
 	public Map<String, Integer> getBookCountMapBasedOnName(List<Book> books) {
 
@@ -52,9 +58,14 @@ public class BookMetaData {
 		}
 		return books;
 	}
-	
+
 	public List<String> getBooksName(List<Book> bookList) {
 		return bookList.stream().map(Book::getTitle).toList();
+	}
+
+	public List<List<Integer>> createBookCombinationBasedUponTotalBooks(int totalBooks) {
+		return algorithm.createBookCombinationBasedUponTotalBooks(rulesBasedOnDiscount, totalBooks);
+
 	}
 
 }

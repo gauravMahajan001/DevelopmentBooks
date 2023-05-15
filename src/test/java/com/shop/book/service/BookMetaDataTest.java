@@ -1,8 +1,10 @@
 package com.shop.book.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,18 +12,25 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.shop.book.model.Book;
 import com.shop.book.util.CreateBook;
 
 class BookMetaDataTest {
 
-	private final BookMetaData bookMetaData = new BookMetaData();
+	@InjectMocks
+	private BookMetaData bookMetaData;
+	@Mock
+	private BookCombinationAlgorithm algorithm;
 	private List<Book> books;
 	private Map<String, Integer> bookCountMapBasedOnName;
 
 	@BeforeEach
 	public void setup() {
+		MockitoAnnotations.openMocks(this);
 		books = getBookist();
 		bookCountMapBasedOnName = getBookCountMapBasedOnName();
 	}
@@ -65,6 +74,25 @@ class BookMetaDataTest {
 
 		assertEquals(getBookist().size(), result.size());
 	}
+	
+	@Test
+	@DisplayName("should calculate book combination based on books")
+	void testBookCombination() {
+		int[] rulesBasedOnDiscount = { 1, 2, 3, 4, 5 };
+		
+		List<Integer> bookCombination1List = Arrays.asList(1, 1);
+		List<Integer> bookCombination2List = Arrays.asList(2);
+		List<List<Integer>> bookCombinations = new ArrayList<>();
+		bookCombinations.add(bookCombination1List);
+		bookCombinations.add(bookCombination2List);
+		int totalBooks = 2;
+		
+		doReturn(bookCombinations).when(algorithm).createBookCombinationBasedUponTotalBooks(rulesBasedOnDiscount, totalBooks);
+		List<List<Integer>> result = bookMetaData.createBookCombinationBasedUponTotalBooks(totalBooks);
+		
+		assertEquals(bookCombinations, result);
+	}
+
 
 	private List<Book> getBookist() {
 		List<Book> books = new ArrayList<>();
