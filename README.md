@@ -42,7 +42,10 @@ url : http://localhost:8080/api/book/shop
 ```
 ## Request Body
 ```
- title : book name, price : book price, quantity : number of books
+ title : book name
+ price : book price
+ quantity : number of books
+ 
 [{
 	"title": "Clean Code",
 	"price": 50.0,
@@ -67,8 +70,13 @@ url : http://localhost:8080/api/book/shop
 ```
 ## Reponse Body
 ```
- totalPrice : discount on total books price, bookNmae : book per combination, price : total books price per combination, 
- discount : discount per combination, totalBook : total number of books
+ totalPrice : total books price after discount
+ booksCombination : combination of books
+ booksName : books name per combination
+ price : total books price after discount per combination 
+ discount : discount percentage per combination
+ totalBook : total number of books
+ 
 {
     "totalPrice": 320.0,
     "booksCombination": [
