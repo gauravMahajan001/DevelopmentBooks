@@ -1,5 +1,6 @@
 package com.shop.book.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public class BookMetaData {
 
 		return books.stream().collect(Collectors.toMap(Book::getTitle, Book::getQuantity));
 	}
-	
+
 	public Book getBookAndReduceAvailableCount(int bookIndex, List<Book> booksList,
 			Map<String, Integer> bookCountMapBasedOnName) {
 
@@ -34,6 +35,22 @@ public class BookMetaData {
 
 		}
 		return distinctBook;
+	}
+
+	public List<Book> getBookListForACombination(int totalBookInBookCombination, List<Book> booksList,
+			Map<String, Integer> bookCountMapBasedOnName) {
+
+		List<Book> books = new ArrayList<>();
+
+		for (int bookIndex = 0; bookIndex < totalBookInBookCombination; bookIndex++) {
+
+			Book book = getBookAndReduceAvailableCount(bookIndex, booksList, bookCountMapBasedOnName);
+
+			if (book != null) {
+				books.add(book);
+			}
+		}
+		return books;
 	}
 
 }

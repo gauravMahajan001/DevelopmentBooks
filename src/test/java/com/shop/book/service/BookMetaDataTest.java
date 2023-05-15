@@ -48,6 +48,16 @@ class BookMetaDataTest {
 		assertEquals(reduceCount, bookCountMapBasedOnName.get(bookName));
 	}
 
+	@Test
+	@DisplayName("should retrieve book list based on combination")
+	void testBookListFromACombination() {
+		int totalBookInABookCombination = 4;
+		List<Book> result = bookMetaData.getBookListForACombination(totalBookInABookCombination, books,
+				bookCountMapBasedOnName);
+
+		assertEquals(totalBookInABookCombination, result.size());
+	}
+
 	private List<Book> getBookist() {
 		List<Book> books = new ArrayList<>();
 		books.add(CreateBook.create("Java", 50, 2));
