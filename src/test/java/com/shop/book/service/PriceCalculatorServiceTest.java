@@ -27,27 +27,26 @@ class PriceCalculatorServiceTest {
 	private PriceCalculatorService priceCalculatorService;
 	@Mock
 	private BookCombinaitonPrice bookCombinaitonPrice;
+	
 	private List<Book> books;
 	private Map<String, Integer> bookCountMapBasedOnName;
-
+	private List<List<Integer>> booksCombinationPatternList = new ArrayList<>();
+    private List<Integer>book_Combination;
+    private BasketPrice basketPrice;
+    
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		books = getBookist();
 		bookCountMapBasedOnName = getBookCountMapBasedOnName();
+		book_Combination = Arrays.asList(4, 4);
+		createBookCombinations(book_Combination, booksCombinationPatternList);
+		basketPrice = getBasketPrice(320, 8);
 	}
 
 	@Test
 	@DisplayName("should calculate basket price based on book combinations")
 	void testCalculateBasketPriceBasedOnBookCombination() {
-		Integer[] bookCombination = { 4, 4 };
-		List<Integer> book_Combination = Arrays.asList(bookCombination);
-		List<List<Integer>> booksCombinationPatternList = new ArrayList<>();
-		booksCombinationPatternList.add(book_Combination);
-		BasketPrice basketPrice = new BasketPrice();
-		basketPrice.setTotalPrice(320);
-		basketPrice.setTotalBook(8);
-
 		doReturn(basketPrice).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination, books,
 				bookCountMapBasedOnName);
 
@@ -60,20 +59,9 @@ class PriceCalculatorServiceTest {
 	@Test
 	@DisplayName("should calculate minimum basket price based on book combinations")
 	void testCalculateMinimumBasketPriceBasedOnBookCombination() {
-		Integer[] bookCombination = { 4, 4 };
-		List<Integer> book_Combination = Arrays.asList(bookCombination);
-		Integer[] bookCombination1 = { 1, 1, 1, 1, 1, 1, 1, 1 };
-		List<Integer> book_Combination1 = Arrays.asList(bookCombination1);
-		List<List<Integer>> booksCombinationPatternList = new ArrayList<>();
-		booksCombinationPatternList.add(book_Combination);
-		booksCombinationPatternList.add(book_Combination1);
-		double expectedbooksPrice = 320;
-		BasketPrice basketPrice = new BasketPrice();
-		basketPrice.setTotalPrice(320);
-		basketPrice.setTotalBook(8);
-		BasketPrice basketPrice1 = new BasketPrice();
-		basketPrice1.setTotalPrice(400);
-		basketPrice1.setTotalBook(8);
+		List<Integer> book_Combination1 = Arrays.asList( 1, 1, 1, 1, 1, 1, 1, 1);
+		createBookCombinations(book_Combination1, booksCombinationPatternList);
+		BasketPrice basketPrice1 = getBasketPrice(400, 8);
 
 		doReturn(basketPrice).when(bookCombinaitonPrice).calculateBasketPricePerCombination(book_Combination, books,
 				bookCountMapBasedOnName);
@@ -83,7 +71,7 @@ class PriceCalculatorServiceTest {
 		BasketPrice result = priceCalculatorService.calculateBookBasketPrice(booksCombinationPatternList,
 				bookCountMapBasedOnName, books);
 
-		assertEquals(expectedbooksPrice, result.getTotalPrice());
+		assertEquals(320, result.getTotalPrice());
 	}
 
 	private List<Book> getBookist() {
@@ -105,6 +93,20 @@ class PriceCalculatorServiceTest {
 		bookCountMapBasedOnName.put("Test", 2);
 
 		return bookCountMapBasedOnName;
+	}
+
+	private BasketPrice getBasketPrice(double totalPrice, int totalBooks) {
+		BasketPrice basketPrice = new BasketPrice();
+		basketPrice.setTotalPrice(totalPrice);
+		basketPrice.setTotalBook(totalBooks);
+
+		return basketPrice;
+
+	}
+
+	private void createBookCombinations(List<Integer> book_Combination,
+			List<List<Integer>> booksCombinationPatternList) {
+		booksCombinationPatternList.add(book_Combination);
 	}
 
 }
