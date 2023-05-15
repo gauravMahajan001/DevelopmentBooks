@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
+import com.shop.book.model.DiscountDto;
 import com.shop.book.util.CreateBook;
 
 class BookCombinaitonPriceTest {
@@ -26,6 +27,8 @@ class BookCombinaitonPriceTest {
 	private BookCombinaitonPrice bookCombinaitonPrice;
 	@Mock
 	private BookMetaData bookMetaData;
+	@Mock
+	private Discount discount;
 	private List<Book> books;
 	private Map<String, Integer> bookCountMapBasedOnName;
 
@@ -41,10 +44,14 @@ class BookCombinaitonPriceTest {
 	void testcalculateBasketPricePerCombination() {
 		Integer[] bookCombination = { 4, 4 };
 		List<Integer> book_Combination = Arrays.asList(bookCombination);
-		double expectedBooksPrice = 400;
+		double expectedBooksPrice = 320;
 		int totalBooks = 4;
+		double booksPrice = 200;
+		double discountedBookPrcie =160;
+		DiscountDto discountDto = new DiscountDto(discountedBookPrcie, totalBooks);
 
 		doReturn(books).when(bookMetaData).getBookListForACombination(totalBooks, books, bookCountMapBasedOnName);
+		doReturn(discountDto).when(discount).getDiscountOnCombination(booksPrice, books);
 		BasketPrice result = bookCombinaitonPrice.calculateBasketPricePerCombination(book_Combination, books,
 				bookCountMapBasedOnName);
 

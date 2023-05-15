@@ -8,12 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
+import com.shop.book.model.DiscountDto;
 
 @Component
 public class BookCombinaitonPrice {
 
 	@Autowired
 	private BookMetaData bookMetaData;
+	@Autowired
+	private Discount discount;
 
 	public BasketPrice calculateBasketPricePerCombination(List<Integer> bookCombinations, List<Book> booksList,
 			Map<String, Integer> bookCountsBasedOnName) {
@@ -26,8 +29,8 @@ public class BookCombinaitonPrice {
 			if (combination == bookListPerCombination.size()) {
 
 				double booksPrice = calculatePricePerBookList(bookListPerCombination);
-				result.setTotalPrice(booksPrice);
-
+				DiscountDto discountDto= discount.getDiscountOnCombination(booksPrice, bookListPerCombination);
+				result.setTotalPrice(discountDto.getDiscountedBookPrice());
 			}
 		});
 		return result;
