@@ -57,6 +57,14 @@ class BookMetaDataTest {
 
 		assertEquals(totalBookInABookCombination, result.size());
 	}
+	
+	@Test
+	@DisplayName("should get books name")
+	void testBooksName() {
+		List<String> result = bookMetaData.getBooksName(books);
+
+		assertEquals(getBookist().size(), result.size());
+	}
 
 	private List<Book> getBookist() {
 		List<Book> books = new ArrayList<>();

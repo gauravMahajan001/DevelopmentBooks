@@ -52,5 +52,9 @@ public class BookMetaData {
 		}
 		return books;
 	}
+	
+	public List<String> getBooksName(List<Book> bookList) {
+		return bookList.stream().map(Book::getTitle).toList();
+	}
 
 }
