@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.shop.book.exception.InvalidBookRequestException;
 import com.shop.book.model.Book;
 import com.shop.book.util.ApplicationConstant;
+import com.shop.book.util.CreateBook;
 
 class BookRequestValidationTest {
 
@@ -46,8 +47,8 @@ class BookRequestValidationTest {
 	@DisplayName("throw exception when user send invalid data in book list")
 	void testExceptionWheInvalidDataInBookList() {
 		List<Book> books = new ArrayList<>();
-		books.add(createBook("", 50, 1));
-		books.add(createBook("Code", 50, 1));
+		books.add(CreateBook.create("", 50, 1));
+		books.add(CreateBook.create("Code", 50, 1));
 
 		Exception exception = assertThrows(InvalidBookRequestException.class,
 				() -> validation.bookRequestValidation(books));
@@ -55,10 +56,6 @@ class BookRequestValidationTest {
 		String actualMessage = exception.getMessage();
 
 		assertTrue(actualMessage.contains(ApplicationConstant.INVALID_BOOKLIST));
-	}
-
-	private Book createBook(String title, double price, int quantity) {
-		return new Book(title, price, quantity);
 	}
 
 }

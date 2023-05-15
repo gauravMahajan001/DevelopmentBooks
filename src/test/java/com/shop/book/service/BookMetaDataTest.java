@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.shop.book.model.Book;
+import com.shop.book.util.CreateBook;
 
 class BookMetaDataTest {
 
@@ -27,16 +28,12 @@ class BookMetaDataTest {
 		assertEquals(totalBooks, result.get(bookName));
 	}
 
-	private Book createBook(String title, double price, int quantity) {
-		return new Book(title, price, quantity);
-	}
-
 	private List<Book> getBookist() {
 		List<Book> books = new ArrayList<>();
-		books.add(createBook("Java", 50, 2));
-		books.add(createBook("Code", 50, 2));
-		books.add(createBook("Junit", 50, 2));
-		books.add(createBook("Test", 50, 2));
+		books.add(CreateBook.create("Java", 50, 2));
+		books.add(CreateBook.create("Code", 50, 2));
+		books.add(CreateBook.create("Junit", 50, 2));
+		books.add(CreateBook.create("Test", 50, 2));
 
 		return books;
 	}

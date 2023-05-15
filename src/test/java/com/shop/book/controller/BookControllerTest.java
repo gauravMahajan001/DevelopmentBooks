@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.shop.book.model.BasketPrice;
 import com.shop.book.model.Book;
+import com.shop.book.util.CreateBook;
 import com.shop.book.validation.BookRequestValidation;
 
 class BookControllerTest {
@@ -37,9 +38,7 @@ class BookControllerTest {
 	@DisplayName("should return object type of BasketPrice")
 	void testBookShoppingReturnType() {
 		List<Book> bookList = new ArrayList<>();
-		Book book = new Book("Java", 50, 1);
-		bookList.add(book);
-
+		bookList.add(CreateBook.create("Java", 50, 1));
 		BasketPrice result = controller.bookShopping(bookList);
 
 		assertThat(result).isExactlyInstanceOf(BasketPrice.class);
@@ -49,8 +48,7 @@ class BookControllerTest {
 	@DisplayName("should call validation once")
 	void testBookListHasValidData() {
 		List<Book> bookList = new ArrayList<>();
-		Book book = new Book("Code", 50, 1);
-		bookList.add(book);
+		bookList.add(CreateBook.create("Code", 50, 1));
 		doNothing().when(validation).bookRequestValidation(bookList);
 
 		controller.bookShopping(bookList);
