@@ -57,5 +57,19 @@ class BookRequestValidationTest {
 
 		assertTrue(actualMessage.contains(ApplicationConstant.INVALID_BOOKLIST));
 	}
+	
+	@Test
+	@DisplayName("throw exception if same book is received multiple time")
+	void testExceptionWhenSameBookReceivedMultipleTimes() {
+		List<Book> books = new ArrayList<>();
+		books.add(CreateBook.create("Code", 50, 1));
+		books.add(CreateBook.create("Code", 50, 1));
+		Exception exception = assertThrows(InvalidBookRequestException.class,
+				() -> validation.bookRequestValidation(books));
+
+		String actualMessage = exception.getMessage();
+
+		assertTrue(actualMessage.contains(ApplicationConstant.INVALID_BOOKLIST));
+	}
 
 }

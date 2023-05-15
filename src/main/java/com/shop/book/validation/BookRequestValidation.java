@@ -2,6 +2,8 @@ package com.shop.book.validation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -24,7 +26,9 @@ public class BookRequestValidation {
 		Optional<Book> result = books.stream()
 				.filter(book -> StringUtils.isEmpty(book.getTitle()) || book.getPrice() <= 0 || book.getQuantity() <= 0)
 				.findAny();
-		if (result.isPresent()) {
+		Set<String> uniqueBookNameList = books.stream().map(Book::getTitle).collect(Collectors.toSet());
+
+		if (result.isPresent() || uniqueBookNameList.size() != books.size()) {
 
 			throw new InvalidBookRequestException(ApplicationConstant.INVALID_BOOKLIST);
 		}
